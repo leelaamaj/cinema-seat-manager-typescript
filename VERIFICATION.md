@@ -16,7 +16,7 @@ Checked in the Codex in-app browser using the real application.
 - All 80 seat buttons appear; empty-room totals are 80 available / 0 occupied.
 - Pair search highlights exactly two seats without reducing availability.
 - Clicking row 3, seat 5 produces 79 available / 1 occupied and a reservation confirmation.
-- Enter and Space reserve seats; ArrowDown from row 0, seat 2 focuses row 1, seat 2.
+- Clicking an available seat reserves it (79 available / 1 occupied); clicking again releases it (80 / 0). `aria-pressed` changes in both directions. Enter and Space toggle reservations; ArrowDown from row 0, seat 2 focuses row 1, seat 2.
 - Reset returns 80 available / 0 occupied and removes highlights.
 - Reload returns a new empty room.
 - Desktop viewport: 1280 × 960; no horizontal overflow.

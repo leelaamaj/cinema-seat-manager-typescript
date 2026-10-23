@@ -23,7 +23,8 @@ function renderSeats(): void {
       button.className = `seat ${occupied ? 'occupied' : suggested ? 'suggested' : 'available'}`;
       button.textContent = occupied ? 'X' : 'L';
       button.setAttribute('aria-label', `Row ${row}, seat ${column}, ${occupied ? 'occupied' : suggested ? 'available, suggested pair' : 'available'}`);
-      button.setAttribute('aria-disabled', String(occupied));
+      button.setAttribute('aria-pressed', String(occupied));
+      button.title = occupied ? 'Click to make this seat available' : 'Click to reserve this seat';
     }
   }
 }
@@ -47,7 +48,12 @@ function buildMap(): void {
       button.id = `seat-${row}-${column}`;
       button.type = 'button';
       button.addEventListener('click', () => {
-        status.textContent = reserveSeat(seating, row, column);
+        if (seating[row][column] === 1) {
+          seating[row][column] = 0;
+          status.textContent = `Row ${row}, seat ${column} is now available.`;
+        } else {
+          status.textContent = reserveSeat(seating, row, column);
+        }
         highlightedPair = null;
         renderSeats();
       });

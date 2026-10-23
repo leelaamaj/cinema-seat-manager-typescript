@@ -52,9 +52,9 @@ Reservation validation rejects out-of-bounds, fractional, NaN, and infinite coor
 
 ## Visual interface
 
-Click an available `L` seat to reserve it; it becomes `X`. **Find two adjacent seats** highlights a pair without changing availability. Reserve the suggested seats individually. Every reservation clears the suggestion so it cannot display stale availability. **Reset room** clears all reservations immediately; this is a disposable practice room.
+Click an available `L` seat to reserve it; it becomes `X`. Click the occupied seat again to release it and return it to `L`. Counts update immediately in both directions. **Find two adjacent seats** highlights a pair without changing availability. Reserve the suggested seats individually. Every reservation or release clears the suggestion so it cannot display stale availability. **Reset room** clears all reservations immediately; this is a disposable practice room.
 
-Use Tab to reach controls, arrow keys to move between seats, and Enter or Space to reserve. Occupied seats remain focusable so their coordinates and status can be read. Status messages are announced politely to screen readers. Text and symbols distinguish states as well as color. Reloading clears all data: no server, storage, accounts, or payment processing is included.
+Use Tab to reach controls, arrow keys to move between seats, and Enter or Space to toggle between reserved and available. All seats remain focusable; `aria-pressed` communicates whether each seat is reserved. Status messages are announced politely to screen readers. Text and symbols distinguish states as well as color. Reloading clears all data: no server, storage, accounts, or payment processing is included.
 
 ## Assignment checklist
 
