@@ -80,7 +80,7 @@ Use Tab to reach controls, arrow keys to move between seats, and Enter or Space 
 - [x] Pass automated tests, typechecking, and production build.
 - [x] Provide useful staff-facing console output.
 
-These are development checks, not instructor approval or proof of portal submission. The repository remains private pending the student's review.
+All 21 course checklist items are complete. After student review and explicit authorization, this repository was made public and its link submitted to 4Geeks on 23 October 2026. The reloaded course page shows **Project pending** and no code review yet; instructor approval is still pending.
 
 ## Verification
 
