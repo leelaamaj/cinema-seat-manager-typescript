@@ -1,112 +1,93 @@
-# Hello World with Typescript
+# Cinema Seat Manager in TypeScript
 
-<!-- hide -->
-> By [@ehiber](https://github.com/ehiber) and contributors at [4Geeks Academy](https://4geeksacademy.com/)
+A command-line reservation prototype with an optional accessible HTML + Tailwind seat map, built from [4Geeks Academy's TypeScript starter](https://github.com/4GeeksAcademy/typescript-hello).
 
-[![build by developers](https://img.shields.io/badge/build_by-Developers-blue)](https://4geeks.com)
-[![twitter](https://img.shields.io/twitter/follow/4geeksacademy?style=social&logo=twitter)](https://twitter.com/4geeksacademy)
+## Run in Codespaces
 
-*Estas instrucciones estan disponibles en [espanol](./README.es.md).*
-<!-- endhide -->
-Start coding a TypeScript/HTML/CSS website in 30 seconds by opening this template using 4Geeks' [One-Click Coding](https://s.4geeks.com/start?repo=https://github.com/4GeeksAcademy/typescript-hello) or locally on your computer.
-
-## Before you begin
-
-Install the packages by typing:
-
-```bash
-npm install
-```
-
-## How do I run my website to see live changes?
-
-Type on the command line:
-
-```bash
-npm run start
-```
-
-Then open your local URL in the browser (usually `http://localhost:5173`).
-
-## How do I run this in GitHub Codespaces?
-
-Run the same development server:
-
-```bash
-npm run start
-```
-
-Vite is configured to listen on `0.0.0.0`, so Codespaces can detect and forward port `5173` automatically.
-
-## How do I run only the TypeScript check?
-
-Use this command to validate only TypeScript without starting Vite:
-
-```bash
-npm run typecheck
-```
-
-## How do I run `main.ts` from the terminal?
-
-If you want to execute `./src/main.ts` directly and see `console.log` output in the terminal, run:
+Open this repository's **Code → Codespaces → Create codespace on main**. The dev container uses Node.js 22 and installs the locked dependencies with `npm ci`.
 
 ```bash
 npm run console
+npm test
+npm run typecheck
+npm run build
+npm run start
 ```
 
-This command is already wired to `./src/main.ts`.
+Open forwarded port **5173** to use the seat map. Keep the port private. Stop the Codespace when finished to conserve quota. Locally, use Node.js 22.12+ (or 24), run `npm ci`, then the same commands.
 
-## Where do I write my code?
+## How it works
 
-It depends on the language:
+Think of the theater as a spreadsheet: eight rows, each containing ten cells. `seating[3][5]` means row 3, seat 5 (the fourth row and sixth seat). `0` is available; `1` is occupied. Coordinates start at zero, matching the assignment diagram.
 
-- `./src/main.ts` for TypeScript logic.
-- `./src/style.css` for styles (Tailwind CSS v4 is already imported).
-- `./index.html` for the HTML shell.
+All seating state lives in a two-dimensional numeric array. There are no custom objects or classes. Counts and coordinate pairs also use arrays; configuration files use the starter's standard tool configuration.
 
-You can add more files as needed, just make sure to import them from `main.ts`.
+| Function | Parameters | Return / effect |
+| --- | --- | --- |
+| `initializeSeating` | none | A fresh 8 × 10 matrix containing zeros, with independent rows |
+| `displaySeating` | seating matrix | Prints row/column numbers, `L` for available and `X` for occupied |
+| `reserveSeat` | matrix, row, column | Confirmation or failure message; changes a valid available seat to `1` |
+| `countSeats` | seating matrix | `[occupied, available]` |
+| `findAdjacentSeats` | seating matrix | `[[row, column], [row, column + 1]]`, or `null` if no horizontal pair exists |
 
-Note: if you can see the "Hello Rigo" card and the message "If you can see this, Tailwind is working.", Tailwind is configured correctly.
-
-## Troubleshooting
-
-### I don't see my changes...
-
-Every time you change any file inside `./src`, the website refreshes automatically (hot reload).
-
-If changes still don't appear, refresh clearing cache:
-
-- Mac: `Cmd + Shift + R`
-- Windows/Linux: `Ctrl + Shift + R`
-
-## How do I include more images in my project?
-
-Add them inside `./public` and reference them in HTML using `/your-image-name.ext`.
-
-Example:
-
-```html
-<img src="/rigo-baby.jpg" alt="Rigo" />
-```
-
-## How do I include more TypeScript files?
-
-Add files into `./src` and import them from `main.ts`.
-
-Example:
+For example:
 
 ```ts
-import { myVar } from "./file2";
+const seating = initializeSeating();
+reserveSeat(seating, 3, 5); // Changes only seating[3][5] to 1.
+countSeats(seating); // [1, 79]
+findAdjacentSeats(seating); // [[0, 0], [0, 1]]; finds but does not reserve.
 ```
 
-## How do I publish the website?
+Reservation validation rejects out-of-bounds, fractional, NaN, and infinite coordinates before accessing the seat. Duplicate reservations leave the matrix unchanged. Pair search checks rows from top to bottom and seats from left to right; it cannot cross row boundaries.
 
-This boilerplate is compatible with Vercel in one step.
+## Files
 
-<!-- hide -->
-## Contributors
+- `src/cinema.ts`: the five shared reservation functions.
+- `src/demo.ts`: empty, partial, scattered-single-seat, and full-room demonstrations.
+- `src/main.ts`: chooses terminal or browser entry point.
+- `src/web.ts`: buttons, messages, counts, pair highlights, reset, and keyboard navigation.
+- `index.html` and `src/style.css`: semantic HTML and responsive Tailwind/CSS styling.
+- `tests/cinema.test.ts`: 10 automated tests for reservation behavior and edge cases.
 
-This template was built as part of the [4Geeks Academy Coding Bootcamp](https://4geeksacademy.com/us/coding-bootcamp) by [ehiber](https://github.com/ehiber) and contributors. Find out more about our [AI Engineering Course](https://4geeksacademy.com/us/coding-bootcamps/ai-engineering), [Full Stack Developer Course](https://4geeksacademy.com/us/coding-bootcamps/part-time-full-stack-developer), and [Data Science Bootcamp](https://4geeksacademy.com/us/coding-bootcamps/datascience-machine-learning).
+## Visual interface
 
-You can find other templates and resources like this at the [school's GitHub page](https://github.com/4geeksacademy/).
-<!-- endhide -->
+Click an available `L` seat to reserve it; it becomes `X`. **Find two adjacent seats** highlights a pair without changing availability. Reserve the suggested seats individually. Every reservation clears the suggestion so it cannot display stale availability. **Reset room** clears all reservations immediately; this is a disposable practice room.
+
+Use Tab to reach controls, arrow keys to move between seats, and Enter or Space to reserve. Occupied seats remain focusable so their coordinates and status can be read. Status messages are announced politely to screen readers. Text and symbols distinguish states as well as color. Reloading clears all data: no server, storage, accounts, or payment processing is included.
+
+## Assignment checklist
+
+- [x] Initialize 8 rows and 10 columns using a two-dimensional array.
+- [x] Represent occupied seats with `1` and available seats with `0`.
+- [x] Print `X` / `L` with row and column numbers.
+- [x] Reserve a seat by row and column.
+- [x] Validate availability and return success/failure messages.
+- [x] Count occupied and available seats.
+- [x] Search for horizontal adjacent available seats.
+- [x] Return the first pair in row-major order.
+- [x] Clearly report when no pair is available.
+- [x] Test empty, partially filled, scattered-single-seat, and full rooms.
+- [x] Provide clear operation messages.
+- [x] Comment each function.
+- [x] Provide the optional HTML/Tailwind interface using shared TypeScript logic.
+- [x] Use a matrix for seating representation.
+- [x] Use functions with parameters and return values.
+- [x] Use conditionals for validation.
+- [x] Use loops to process and display the matrix.
+- [x] Verify horizontal adjacency including row edges.
+- [x] Use readable, meaningful names.
+- [x] Pass automated tests, typechecking, and production build.
+- [x] Provide useful staff-facing console output.
+
+These are development checks, not instructor approval or proof of portal submission. The repository remains private pending the student's review.
+
+## Verification
+
+The 10 tests cover independent rows; duplicate and invalid reservations; all corners; counts; earliest-pair ordering; final-column and later-row searches; isolated singles; full rooms; row boundaries; and console labels/symbols.
+
+The browser is checked for pair highlighting without booking, clicking and keyboard booking, count updates, reset, refresh, and desktop/mobile layouts. No paid hosting or deployment is required.
+
+## Credits
+
+Starter configuration: 4Geeks Academy, @ehiber, and contributors. Implementation prepared with Codex assistance; review and understand the code before submitting it under your course's policies.

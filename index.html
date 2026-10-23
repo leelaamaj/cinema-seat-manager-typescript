@@ -1,26 +1,26 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hello World with Typescript</title>
-  </head>
-  <body class="min-h-screen bg-slate-100 text-slate-900">
-    <main class="mx-auto flex min-h-screen max-w-2xl flex-col items-center justify-center gap-6 p-6">
-      <h1 class="text-4xl font-bold tracking-tight">Hello World with Typescript</h1>
-
-      <section class="w-full max-w-md overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-        <img
-          src="/rigo-baby.jpg"
-          alt="Hello Rigo"
-          class="h-64 w-full bg-slate-50 object-contain p-2"
-        />
-        <div class="p-5">
-          <h2 class="text-xl font-semibold text-slate-900">Hello Rigo</h2>
-          <p id="app" class="mt-2 text-sm text-slate-600"></p>
-        </div>
-      </section>
-    </main>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
-</html>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="An accessible cinema seat reservation prototype built with TypeScript."><title>Cinema Seat Manager</title></head>
+<body>
+  <main class="mx-auto max-w-5xl px-4 py-8 sm:px-8 sm:py-12">
+    <header class="mb-9 flex flex-wrap items-end justify-between gap-6">
+      <div><h1 class="text-3xl font-semibold tracking-tight sm:text-4xl">Cinema Seat Manager<span class="title-dot">.</span></h1><p class="mt-3 text-sm text-slate-400">A small room. A great night at the movies.</p></div>
+      <p class="room-label">SCREENING ROOM 01<br><span>8 rows · 10 seats</span></p>
+    </header>
+    <section aria-label="Seat availability" class="counts flex gap-8 border-y border-white/10 py-5 sm:gap-12">
+      <p><strong id="available-count">80</strong><span>Available</span></p><p><strong id="occupied-count">0</strong><span>Occupied</span></p><p><strong>80</strong><span>Total seats</span></p>
+    </section>
+    <section aria-label="Choose your seats" class="theater">
+      <div class="screen" aria-hidden="true">SCREEN</div>
+      <p class="map-hint">Columns</p>
+      <div id="seat-map" aria-label="Seat map, rows 0 to 7 and columns 0 to 9"></div>
+      <div class="legend flex flex-wrap justify-center gap-x-6 gap-y-3"><span><i class="legend-seat available">L</i> Available</span><span><i class="legend-seat occupied">X</i> Occupied</span><span><i class="legend-seat suggested">L</i> Suggested pair</span></div>
+    </section>
+    <section aria-label="Reservation controls" class="controls">
+      <div class="flex flex-wrap gap-3"><button id="find-pair" type="button" class="primary">Find two adjacent seats</button><button id="reset" type="button" class="secondary">Reset room</button></div>
+      <p id="status" role="status" aria-live="polite" aria-atomic="true">Choose an available seat to reserve it, or find a pair together.</p>
+    </section>
+    <footer class="mt-7 flex flex-wrap justify-between gap-3 text-xs text-slate-400"><span>Click a seat to reserve · Arrow keys to move · Enter or Space to reserve</span><span>Practice room · Refresh clears reservations</span></footer>
+  </main>
+  <script type="module" src="/src/main.ts"></script>
+</body></html>

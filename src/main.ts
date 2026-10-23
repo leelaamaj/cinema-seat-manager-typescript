@@ -1,12 +1,12 @@
-if (typeof document !== "undefined") {
-  import("./style.css").then(() => {
-    const app = document.querySelector<HTMLParagraphElement>("#app");
-    if (app) {
-      app.textContent = "If you can see this, Tailwind is working.";
-    }
-  });
+// Keep DOM-only code out of the terminal while sharing the reservation logic.
+async function start(): Promise<void> {
+  if (typeof document === 'undefined') {
+    const { runDemo } = await import('./demo');
+    runDemo();
+  } else {
+    await import('./style.css');
+    await import('./web');
+  }
 }
-
-console.log("Hello from src/main.ts");
-
+void start();
 export {};
